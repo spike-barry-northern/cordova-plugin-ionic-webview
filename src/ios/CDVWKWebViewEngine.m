@@ -104,8 +104,6 @@
 // expose private configuration value required for background operation
 @interface WKWebViewConfiguration ()
 
-@property (setter=_setAlwaysRunsAtForegroundPriority:, nonatomic) bool _alwaysRunsAtForegroundPriority;
-
 @end
 
 
@@ -117,8 +115,6 @@
 @synthesize engineWebView = _engineWebView;
 
 NSTimer *timer;
-
-NSString * const IONIC_SCHEME = @"ionic";
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -181,8 +177,6 @@ NSString * const IONIC_SCHEME = @"ionic";
         return configuration;
     }
 
-    //required to stop wkwebview suspending in background too eagerly (as used in background mode plugin)
-    configuration._alwaysRunsAtForegroundPriority = ![settings cordovaBoolSettingForKey:@"WKSuspendInBackground" defaultValue:YES];
     configuration.allowsInlineMediaPlayback = [settings cordovaBoolSettingForKey:@"AllowInlineMediaPlayback" defaultValue:YES];
     configuration.suppressesIncrementalRendering = [settings cordovaBoolSettingForKey:@"SuppressesIncrementalRendering" defaultValue:NO];
     configuration.allowsAirPlayForMediaPlayback = [settings cordovaBoolSettingForKey:@"MediaPlaybackAllowsAirPlay" defaultValue:YES];
@@ -197,7 +191,11 @@ NSString * const IONIC_SCHEME = @"ionic";
     if(bind == nil){
         bind = @"localhost";
     }
-    self.CDV_LOCAL_SERVER = [NSString stringWithFormat:@"%@://%@",IONIC_SCHEME, bind];
+    NSString *scheme = [settings cordovaSettingForKey:@"iosScheme"];
+    if(scheme == nil || [scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"]  || [scheme isEqualToString:@"file"]){
+        scheme = @"ionic";
+    }
+    self.CDV_LOCAL_SERVER = [NSString stringWithFormat:@"%@://%@", scheme, bind];
 
     self.uiDelegate = [[CDVWKWebViewUIDelegate alloc] initWithTitle:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"]];
 
@@ -238,9 +236,8 @@ NSString * const IONIC_SCHEME = @"ionic";
     WKWebViewConfiguration* configuration = [self createConfigurationFromSettings:settings];
     configuration.userContentController = userContentController;
 
-    self.handler = [[IONAssetHandler alloc] init];
-    [self.handler setAssetPath:[self getStartPath]];
-    [configuration setURLSchemeHandler:self.handler forURLScheme:IONIC_SCHEME];
+    self.handler = [[IONAssetHandler alloc] initWithBasePath:[self getStartPath] andScheme:scheme];
+    [configuration setURLSchemeHandler:self.handler forURLScheme:scheme];
 
     // re-create WKWebView, since we need to update configuration
     // remove from keyWindow before recreating
