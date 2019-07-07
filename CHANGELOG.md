@@ -1,3 +1,25 @@
+## [4.1.1](https://github.com/ionic-team/cordova-plugin-ionic-webview/compare/v4.1.0...v4.1.1) (2019-06-26)
+
+
+### Bug Fixes
+
+* **ios:** show error message when app fails to load ([#382](https://github.com/ionic-team/cordova-plugin-ionic-webview/issues/382)) ([cb1f026](https://github.com/ionic-team/cordova-plugin-ionic-webview/commit/cb1f026))
+
+# [4.1.0](https://github.com/ionic-team/cordova-plugin-ionic-webview/compare/v4.0.1...v4.1.0) (2019-06-10)
+
+
+### Features
+
+* **ios:** Add WKSuspendInBackground preference ([#356](https://github.com/ionic-team/cordova-plugin-ionic-webview/issues/356)) ([3613602](https://github.com/ionic-team/cordova-plugin-ionic-webview/commit/3613602))
+
+## [4.0.1](https://github.com/ionic-team/cordova-plugin-ionic-webview/compare/v4.0.0...v4.0.1) (2019-03-26)
+
+
+### Bug Fixes
+
+* **ios:** Fix autofocus on iOS 12.2 ([#334](https://github.com/ionic-team/cordova-plugin-ionic-webview/issues/334)) ([cb4c491](https://github.com/ionic-team/cordova-plugin-ionic-webview/commit/cb4c491)), closes [#330](https://github.com/ionic-team/cordova-plugin-ionic-webview/issues/330)
+* account port on resolving uri path ([#321](https://github.com/ionic-team/cordova-plugin-ionic-webview/issues/321)) ([fdfe8aa](https://github.com/ionic-team/cordova-plugin-ionic-webview/commit/fdfe8aa))
+
 # [4.0.0](https://github.com/ionic-team/cordova-plugin-ionic-webview/compare/v3.1.2...v4.0.0) (2019-02-18)
 
 
